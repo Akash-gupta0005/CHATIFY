@@ -4,11 +4,10 @@ import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/emailHandler.js';
 import 'dotenv/config';
 
-
 export const signup = async (req, res) => {
     const { fullName, email, password } = req.body;
     const name = typeof fullName === "string" ? fullName.trim() : "";
-    const normalEmail=typeof email === "string"? email.trim().toLowerCase():"";
+    const normalEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
     const pass = typeof password === "string" ? password : "";
     try {
         if (!name || !normalEmail || !pass) {
@@ -22,7 +21,7 @@ export const signup = async (req, res) => {
         if (!emailRegex.test(normalEmail)) {
             return res.status(400).json({ message: "Invalid email format" });
         }
-        const user = await User.findOne({ email:normalEmail })
+        const user = await User.findOne({ email: normalEmail })
         if (user) return res.status(400).json({ message: "Email already exist" })
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -38,7 +37,7 @@ export const signup = async (req, res) => {
 
             res.status(201).json({ message: "User registered successfully" })
             try {
-                await sendWelcomeEmail(savedUser.email,savedUser.fullName,process.env.CLIENT_URL)
+                await sendWelcomeEmail(savedUser.email, savedUser.fullName, process.env.CLIENT_URL)
             } catch (error) {
                 console.log(`Failed to send welcome email : ${error}`)
             }
@@ -49,4 +48,29 @@ export const signup = async (req, res) => {
         console.log("Error in signup controller", error)
         res.status(500).json({ message: "Internal Server Error" });
     }
+}
+
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "Invalid Credentials" })
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid Credentials" })
+        generateToken(user._id,res);
+        res.status(200).json({
+            _id:user._id,
+            fullName:user.fullName,
+            email:user.email,
+            profilePic:user.profilePic
+        })
+    } catch (error) {
+        console.error("Error in the login controller", error);
+        return res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+export const logout=(_,res)=>{
+    res.cookie("jwt","",{maxAge:0});
+    res.status(200).json({message:"User logged out successfully"})
 }
