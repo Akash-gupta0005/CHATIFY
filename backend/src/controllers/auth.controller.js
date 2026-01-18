@@ -3,6 +3,7 @@ import generateToken from '../lib/utils.js';
 import bcrypt from 'bcryptjs';
 import { sendWelcomeEmail } from '../emails/emailHandler.js';
 import 'dotenv/config';
+import cloudinary from '../lib/cloudinary.js';
 
 export const signup = async (req, res) => {
     const { fullName, email, password } = req.body;
@@ -73,4 +74,21 @@ export const login = async (req, res) => {
 export const logout=(_,res)=>{
     res.cookie("jwt","",{maxAge:0});
     res.status(200).json({message:"User logged out successfully"})
+}
+
+export const updateProfile=async(req,res)=>{
+    try {
+        const {profilePic}=req.body;
+        if (!profilePic) return res.status(400).json({message: "Profile pic is required"});
+        const userId=req.user._id;
+        const uploadRes=await cloudinary.uploader.upload(profilePic);
+        const upadtedUser=await User.findById(userId,
+            {profilePic:uploadRes.secure_url},
+            {new:true}
+        ).select("-password");
+        res.status(200).json(upadtedUser)
+    } catch (error) {
+        console.log("Error in update profile");
+        res.status(500).json({message:"Internal Server Error"});
+    }
 }
