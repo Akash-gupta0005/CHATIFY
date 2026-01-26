@@ -1,3 +1,210 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+.home{
+  color:rgba(255, 255, 255, 0.801);
+  width: auto;
+  padding: 1rem;
+  background-image: url("/background.png");
+  background-repeat:no-repeat;
+  background-size: cover;
+  min-height: calc(100vh);
+}
+#form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    height: 100vh;
+}
+
+#form-container .form_data{
+    background: #000000;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    max-width: 550px;
+    margin: 25px auto;
+    padding: 35px 10px;
+    box-shadow: 2px 2px 14px -8px #e2e3e6;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Ensure the form appears above fixed UI elements (chat toggle, vertical button) */
+.form_data{
+    position: relative;
+}
+
+.form_heading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form_data h1{
+    font-size: 34px;
+    color: #2a4365;
+    font-weight: 600;
+}
+
+.form_data p{
+    color: #718096;
+    font-size: 15px;
+    margin-top:9px;
+}
+
+.form_data form{
+    margin-top: 5px;
+    width: 100%;
+    padding: 10px 50px;
+}
+
+.form_data form .form_input input{
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #d4d0d0;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 14px;
+    margin-top: 9px;
+    font-size: 15px;
+}
+
+.form_data form .form_input label{
+    font-weight:bolder;
+    font-size: 15px;
+}
+
+.form_input .two{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.form_data form .form_input input:focus{
+    border:2px solid rgba(184, 189, 192, 0.904);
+}
+
+
+.form_data form .form_input input::placeholder{
+    color: #8694a8;
+    letter-spacing: .5px;
+    font-size: 16px;
+}
+
+.form_input .showpass{
+    position: absolute;
+    right: 0;
+    top:1px;
+    padding: 7px 10px;
+    margin-right: 5px;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2a4365;
+    background-color: #EDF2F7;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form-btn button{
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+}
+#form-btn button:hover{
+    background-color: #0e0c0c;
+    color: whitesmoke;
+    transition: all 0.3s linear;
+}
+
+.form_data form p{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form_data form a{
+    text-decoration: none;
+    color:#718096 ;
+    border-bottom: 2px solid #8694a8;
+}
+
+/* Responsive adjustments */
+/* Mobile-first: small phones */
+@media (max-width: 480px){
+    .form_data{
+        max-width: 100%;
+        margin: 15px 12px;
+        padding: 20px 12px;
+        box-shadow: none;
+        border-radius: 8px;
+    }
+
+    .form_data h1{
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .form_data p{
+        font-size: 14px;
+        margin-top: 6px;
+        text-align: center;
+    }
+
+    .form_data form{
+        padding: 8px 12px;
+    }
+
+    .form_data form .form_input input{
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .form_input .two{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form_input .showpass{
+        position: static;
+        margin: 8px 0 0 0;
+        align-self: flex-end;
+        padding: 8px 10px;
+    }
+
+    #form-btn{
+        padding: 8px;
+        font-size: 16px;
+        position: relative;
+        left: 20%;
+    }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px){
+    .form_data{
+        max-width: 520px;
+        margin: 22px auto;
+        padding: 28px 20px;
+    }
+
+    .form_data h1{ font-size: 28px; }
+    .form_data p{ font-size: 14px; }
+    .form_data form{ padding: 10px 24px; }
+}
+
+/* Small desktop / landscape tablets */
+@media (min-width: 769px) and (max-width: 1024px){
+    .form_data{
+        max-width: 540px;
+        padding: 32px 30px;
+    }
+    .form_data h1{ font-size: 32px; }
+}
+
