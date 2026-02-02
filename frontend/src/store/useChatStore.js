@@ -18,7 +18,8 @@ export const useChatStore=create((set)=>({
         set({isUsersLoading:true})
         try{
             const res=await axiosInstance.get('/messages/contacts');
-            set({allContacts:res.data});
+            // backend returns { filteredUsers: [...] }
+            set({allContacts: res.data.filteredUsers || []});
         }catch(error){
             toast.error(error.response.data.message);
         }finally{
