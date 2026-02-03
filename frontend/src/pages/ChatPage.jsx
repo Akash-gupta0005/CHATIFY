@@ -7,7 +7,8 @@ import { ContactList } from '../components/ContactList.jsx'
 import { ChatContainer } from '../components/ChatContainer.jsx'
 import { NoConversationPlace } from '../components/NoConversationPlace.jsx'
 import { useChatStore } from '../store/useChatStore.js';
-import { LogOutIcon } from 'lucide-react'
+import { XIcon, LogOutIcon, MenuIcon } from 'lucide-react'
+
 
 export const ChatPage = () => {
   const { activeTab, selectedUser } = useChatStore();
@@ -36,10 +37,10 @@ export const ChatPage = () => {
               <ProfileHeader />
               <button
                 aria-label="Close sidebar"
-                className="text-white/80 hover:text-white"
+                className="text-white/80 cursor-pointer hover:text-white"
                 onClick={closeMobile}
               >
-                ✕
+                <XIcon />
               </button>
             </div>
             <ActiveTabSwitch />
@@ -56,14 +57,14 @@ export const ChatPage = () => {
         <div className="md:hidden p-2 flex items-center justify-between border-b border-slate-700/40">
           <button
             aria-label="Open sidebar"
-            className="px-3 py-2 rounded-lg bg-slate-800/30 text-white"
+            className="px-3 py-2 rounded-lg bg-slate-800/30 text-white cursor-pointer"
             onClick={() => setMobileOpen(true)}
           >
-            ☰
+            <MenuIcon />
           </button>
           <div className="flex items-center gap-2 pr-2">
             <button
-              className="text-slate-400 hover:text-slate-200 transition-colors"
+              className="text-slate-400 cursor-pointer hover:text-slate-200 transition-colors"
               onClick={logout}
             >
               <LogOutIcon className="size-5" />
