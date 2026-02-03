@@ -1,0 +1,13 @@
+import React from 'react'
+
+export const MessageLoadingSkeleton = () => {
+    return (
+            <div className="max-w-3xl mx-auto space-y-6">
+            {[...Array(6)].map((_,index) => (
+                <div key={index} className={`chat ${index %2 ===0 ? "chat-start":"chat-end"} animate-pulse`}>
+                    <div className="chat-bubble bg-slate-800/50 text-white w-20"></div>
+                </div>
+            ))}
+        </div>
+    );
+}

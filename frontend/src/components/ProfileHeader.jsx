@@ -60,7 +60,7 @@ export const ProfileHeader = () => {
 
         {/* RIGHT: Logout */}
         <button
-          className="hidden md:flex text-slate-400 hover:text-slate-200 transition-colors"
+          className="hidden md:flex text-slate-400 cursor-pointer hover:text-slate-200 transition-colors"
           onClick={logout}
         >
           <LogOutIcon className="size-5" />
