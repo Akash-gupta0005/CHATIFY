@@ -53,7 +53,7 @@ const LoginPage = () => {
                       )}
                     </button>
          </div>
-          <p>Already have an account? <Link to="/signup">Signup</Link></p>
+          <p>Don't have an account? <Link to="/signup">Signup</Link></p>
         </form>
       </div>
     </div>
