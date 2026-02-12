@@ -10,7 +10,7 @@ dotenv.config();
 const app=express();
 
 const port = process.env.PORT || 3000;
-app.use(express.json());
+app.use(express.json({limit:"5mb"}));
 app.use(cors({
     origin:'http://localhost:5173',
     credentials:true,
@@ -20,7 +20,12 @@ app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes);
 
 
-app.listen(port,()=>{
-    console.log(`server listening to the port ${port}`);
-    connectDB();
-})
+const startServer = async () => {
+  await connectDB(); // ⬅️ wait for MongoDB FIRST
+
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+};
+
+startServer();

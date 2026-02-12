@@ -24,7 +24,7 @@ export const getMessagesByUserId = async (req, res) => {
                 { senderId: myId, receiverId: userToChatId },
                 { senderId: userToChatId, receiverId: myId }
             ]
-        });
+        }).populate("senderId", "fullName profilePic").populate("receiverId", "fullName profilePic").sort({ createdAt: 1 });
         res.status(200).json(messages);
     } catch (error) {
         console.log("Error in getting messages : ", error);
@@ -48,19 +48,20 @@ export const sendMessage = async (req, res) => {
         if (!receiverExist) {
             return res.status(400).json({ message: "Receiver not found" });
         }
-        let imgUrl;
+        let imageUrl;
+
         if (image) {
-            const uploadResponse = await cloudinary.uploader.upload(imgUrl);
-            imgUrl = uploadResponse.secure_url;
+            const upload = await cloudinary.uploader.upload(image);
+            imageUrl = upload.secure_url;
         }
-        const newMessage = new Message({
+
+        const message = await Message.create({
             senderId,
             receiverId,
             text,
-            image: imgUrl
-        })
-        await newMessage.save();
-        res.status(200).json(newMessage);
+            image: imageUrl
+        });
+        res.status(200).json(message);
     } catch (err) {
         console.log("Error in sending message : ", err);
         return res.status(500).json({ message: "Server Error" });

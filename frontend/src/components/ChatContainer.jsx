@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useChatStore } from '../store/useChatStore.js'
 import { useAuthStore } from '../store/useAuthStore.js'
 import ChatHeader from './ChatHeader.jsx'
@@ -9,14 +9,22 @@ import { MessageLoadingSkeleton } from './MessageLoadingSkeleton.jsx';
 export const ChatContainer = () => {
   const { selectedUser, isMessagesLoading, getMessagesByUserId, messages } = useChatStore()
   const { authUser } = useAuthStore();
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     getMessagesByUserId(selectedUser._id);
   }, [selectedUser, getMessagesByUserId]);
+  useEffect(() => {
+    if(messageEndRef.current){
+       messageEndRef.current.scrollTop = messageEndRef.current.scrollHeight;
+    }
+},[messages]);
   return (
-    <>
+    <div className='flex flex-col h-full'>
       <ChatHeader />
-      <div className='flex-1 px-6 overflow-y-auto py-8'>
+      <div 
+        ref={messageEndRef}
+        className='flex-1 px-6 overflow-y-auto scroll-smooth py-8 pb-24 bg-slate-900/20'>
         {
           messages.length > 0 && !isMessagesLoading ? (
             <div className='max-w-3xl mx-auto space-y-6'>
@@ -43,13 +51,16 @@ export const ChatContainer = () => {
 
                 ))
               }
+              {/* <div  ref={messageEndRef}/> */}
             </div>
+            
           ) : isMessagesLoading ? <MessageLoadingSkeleton /> : (
             <NoChatHistoryPlaceholder name={selectedUser.fullName} />
           )
         }
       </div>
+
       <MessageInput />
-    </>
+    </div>
   )
 }
